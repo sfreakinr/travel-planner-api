@@ -27,4 +27,20 @@ const getAllPlans = async (req, res) => {
   }
 };
 
+const updatePlan = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedPlan = await Plan.findByIdAndUpdate(id, req.body, { new: true });
+
+    if (!updatedPlan) {
+      return res.status(404).json({ message: "Plan not found" });
+    }
+
+    res.status(200).json(updatedPlan);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating plan", error });
+  }
+};
+
+
 module.exports = { createPlan, getAllPlans };
